@@ -1,0 +1,19 @@
+%label{:class => "label"}= t("activerecord.attributes.project.title", :default => t("activerecord.labels.title", :default => "Title")) + ":"
+%p= @project.title
+%label{:class => "label"}= t("activerecord.attributes.project.description", :default => t("activerecord.labels.description", :default => "Description")) + ":"
+%p= @project.description
+%label{:class => "label"}= t("activerecord.attributes.project.start_date", :default => t("activerecord.labels.start_date", :default => "Start date")) + ":"
+%p= @project.start_date
+%label{:class => "label"}= t("activerecord.attributes.project.end_date", :default => t("activerecord.labels.end_date", :default => "End date")) + ":"
+%p= @project.end_date
+%label{:class => "label"}= t("activerecord.attributes.project.public", :default => t("activerecord.labels.public", :default => "Public")) + ":"
+%p= @project.public
+%label{:class => "label"}= t("activerecord.attributes.project.status_id", :default => t("activerecord.labels.status_id", :default => "Status")) + ":"
+%p= @project.status_id
+%label{:class => "label"}= t("activerecord.attributes.project.manager_id", :default => t("activerecord.labels.manager_id", :default => "Manager")) + ":"
+%p= @project.manager_id
+
+.form-actions
+  = link_to "Back", projects_path, :class => 'btn'
+  = link_to "Edit", edit_project_path(@project), :class => 'btn'
+  = link_to "Delete", project_path(@project), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger'

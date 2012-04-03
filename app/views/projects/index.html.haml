@@ -1,0 +1,21 @@
+%h1 Projects
+%table{:class => "table table-striped"}
+  %thead
+    %tr
+      %th ID
+      %th
+        = t("activerecord.attributes.project.title", :default => t("activerecord.labels.title", :default => "Title"))
+      %th Created at
+      %th Actions
+  %tbody
+    - @projects.each do |project|
+      %tr
+        %td= project.id
+        %td= link_to project.title, project_path(project)
+        %td= project.created_at
+        %td
+          = link_to "Show", project_path(project), :class => 'btn btn-mini'
+          = link_to "Edit", edit_project_path(project), :class => 'btn btn-mini'
+          = link_to "Destroy", project_path(project), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-mini btn-danger' 
+
+= link_to "New", new_project_path, :class => 'btn btn-primary'

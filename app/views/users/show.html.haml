@@ -1,0 +1,17 @@
+%label{:class => "label"}= t("activerecord.attributes.user.name", :default => t("activerecord.labels.name", :default => "Name")) + ":"
+%p= @user.name
+%label{:class => "label"}= t("activerecord.attributes.user.email", :default => t("activerecord.labels.email", :default => "Email")) + ":"
+%p= @user.email
+%label{:class => "label"}= t("activerecord.attributes.user.username", :default => t("activerecord.labels.username", :default => "Username")) + ":"
+%p= @user.username
+%label{:class => "label"}= t("activerecord.attributes.user.password", :default => t("activerecord.labels.password", :default => "Password")) + ":"
+%p= @user.password
+%label{:class => "label"}= t("activerecord.attributes.user.bio", :default => t("activerecord.labels.bio", :default => "Bio")) + ":"
+%p= @user.bio
+%label{:class => "label"}= t("activerecord.attributes.user.country_id", :default => t("activerecord.labels.country_id", :default => "Country")) + ":"
+%p= @user.country_id
+
+.form-actions
+  = link_to "Back", users_path, :class => 'btn'
+  = link_to "Edit", edit_user_path(@user), :class => 'btn'
+  = link_to "Delete", user_path(@user), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger'
