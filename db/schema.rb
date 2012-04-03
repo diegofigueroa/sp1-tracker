@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(:version => 20120403005007) do
     t.datetime "updated_at"
   end
 
+  create_table "languages_users", :id => false, :force => true do |t|
+    t.integer "language_id"
+    t.integer "user_id"
+  end
+
+  add_index "languages_users", ["language_id"], :name => "index_languages_users_on_language_id"
+  add_index "languages_users", ["user_id"], :name => "index_languages_users_on_user_id"
+
   create_table "project_statuses", :force => true do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -46,6 +54,14 @@ ActiveRecord::Schema.define(:version => 20120403005007) do
   add_index "projects", ["manager_id"], :name => "index_projects_on_manager_id"
   add_index "projects", ["status_id"], :name => "index_projects_on_status_id"
 
+  create_table "projects_users", :id => false, :force => true do |t|
+    t.integer "project_id"
+    t.integer "user_id"
+  end
+
+  add_index "projects_users", ["project_id"], :name => "index_projects_users_on_project_id"
+  add_index "projects_users", ["user_id"], :name => "index_projects_users_on_user_id"
+
   create_table "task_types", :force => true do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -59,7 +75,7 @@ ActiveRecord::Schema.define(:version => 20120403005007) do
     t.date     "end_date"
     t.integer  "difficulty"
     t.boolean  "completed"
-    t.integer  "task_type_id"
+    t.integer  "type_id"
     t.integer  "project_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -67,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20120403005007) do
   end
 
   add_index "tasks", ["project_id"], :name => "index_tasks_on_project_id"
-  add_index "tasks", ["task_type_id"], :name => "index_tasks_on_task_type_id"
+  add_index "tasks", ["type_id"], :name => "index_tasks_on_type_id"
   add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
