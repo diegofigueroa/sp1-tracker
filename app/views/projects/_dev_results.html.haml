@@ -1,0 +1,21 @@
+%table.table.table-striped
+	%thead
+		%tr
+			%th
+			%th Name
+			%th Email
+	%tbody
+		- @users.each do |user|
+			%tr
+				%td
+				%td= user.name
+				%td= user.email
+				%td{:id => "dev-link-#{user.id}"}
+					- if @project.manager? user
+						%span.label.label-info Manager
+					- elsif @project.developer? user
+						%span.label.label-success Developer
+					- else
+						= link_to add_project_developer_path(@project,user), {:class => "btn btn-success btn-mini", :remote => true, :confirm => "Are you sure?"} do
+							%i.icon-plus.icon-white
+							Add

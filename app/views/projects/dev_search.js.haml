@@ -1,0 +1,5 @@
+
+- if @users.any?
+	$('#developers').html("#{escape_javascript(render(:partial => 'dev_results'))}");
+- else
+	$('#developers').html("#{escape_javascript(alert_msg 'Oops!', 'No matches found.')}");
