@@ -1,9 +1,19 @@
 CardinalTracker::Application.routes.draw do
-  resources :users
-
-  resources :tasks
-
-  resources :projects
+	resources :users do
+		post :search, :on => :collection
+	end
+	
+	resources :tasks
+	
+	resources :projects do
+		resources :tasks, :shallow => true
+		resources :developers, :controller => "projects", :only => [:destroy] do
+			get :add, :action => :add_developer, :on => :member
+			post :search, :action => :search_developers, :on => :collection
+		end
+		
+		#get :add_developer, :on => :member
+	end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

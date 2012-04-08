@@ -5,6 +5,15 @@
 // the compiled file.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require bootstrap-datepicker
 //= require_tree .
+
+$(function(){
+	$(".datepicker,#dp1").datepicker();
+	//$(".date_select").live('click', function() {
+		//$(this).datepicker({showOn:'focus'}).focus();
+	//});
+});

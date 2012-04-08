@@ -25,7 +25,7 @@ class TasksController < ApplicationController
   # GET /tasks/new.json
   def new
     @task = Task.new
-
+    @task.project_id = params[:project_id]
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @task }

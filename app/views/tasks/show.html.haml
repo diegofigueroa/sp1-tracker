@@ -1,23 +1,31 @@
-%label{:class => "label"}= t("activerecord.attributes.task.title", :default => t("activerecord.labels.title", :default => "Title")) + ":"
+%label{:class => "label"}= t("activerecord.attributes.task.title", :default => t("activerecord.labels.title", :default => "Title"))
 %p= @task.title
-%label{:class => "label"}= t("activerecord.attributes.task.description", :default => t("activerecord.labels.description", :default => "Description")) + ":"
-%p= @task.description
-%label{:class => "label"}= t("activerecord.attributes.task.start_date", :default => t("activerecord.labels.start_date", :default => "Start date")) + ":"
-%p= @task.start_date
-%label{:class => "label"}= t("activerecord.attributes.task.end_date", :default => t("activerecord.labels.end_date", :default => "End date")) + ":"
-%p= @task.end_date
-%label{:class => "label"}= t("activerecord.attributes.task.difficulty", :default => t("activerecord.labels.difficulty", :default => "Difficulty")) + ":"
-%p= @task.difficulty
-%label{:class => "label"}= t("activerecord.attributes.task.completed", :default => t("activerecord.labels.completed", :default => "Completed")) + ":"
-%p= @task.completed
-%label{:class => "label"}= t("activerecord.attributes.task.task_type_id", :default => t("activerecord.labels.task_type_id", :default => "Task type")) + ":"
-%p= @task.task_type_id
-%label{:class => "label"}= t("activerecord.attributes.task.project_id", :default => t("activerecord.labels.project_id", :default => "Project")) + ":"
-%p= @task.project_id
-%label{:class => "label"}= t("activerecord.attributes.task.user_id", :default => t("activerecord.labels.user_id", :default => "User")) + ":"
-%p= @task.user_id
 
-.form-actions
-  = link_to "Back", tasks_path, :class => 'btn'
-  = link_to "Edit", edit_task_path(@task), :class => 'btn'
-  = link_to "Delete", task_path(@task), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger'
+%label{:class => "label"}= t("activerecord.attributes.task.description", :default => t("activerecord.labels.description", :default => "Description"))
+%p= @task.description
+
+%label{:class => "label"}= t("activerecord.attributes.task.start_date", :default => t("activerecord.labels.start_date", :default => "Start date"))
+%p= @task.start_date
+
+%label{:class => "label"}= t("activerecord.attributes.task.difficulty", :default => t("activerecord.labels.difficulty", :default => "Difficulty"))
+%p= @task.difficulty
+
+%label{:class => "label"}= t("activerecord.attributes.task.type_id", :default => t("activerecord.labels.type_id", :default => "Task type"))
+%p= @task.type
+
+%label{:class => "label"}= t("activerecord.attributes.task.project_id", :default => t("activerecord.labels.project_id", :default => "Project"))
+%p= @task.project
+
+%label{:class => "label"}= t("activerecord.attributes.task.user_id", :default => t("activerecord.labels.user_id", :default => "User"))
+%p= @task.user
+
+.form-actions.btn-group
+	= link_to tasks_path, :class => 'btn' do
+		%i.icon-arrow-left
+		Back
+	= link_to edit_task_path(@task), :class => 'btn' do
+		%i.icon-pencil
+		Edit
+	= link_to task_path(@task), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger' do
+		%i.icon-trash.icon-white
+		Delete

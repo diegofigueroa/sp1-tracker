@@ -1,19 +1,119 @@
-%label{:class => "label"}= t("activerecord.attributes.project.title", :default => t("activerecord.labels.title", :default => "Title")) + ":"
-%p= @project.title
-%label{:class => "label"}= t("activerecord.attributes.project.description", :default => t("activerecord.labels.description", :default => "Description")) + ":"
-%p= @project.description
-%label{:class => "label"}= t("activerecord.attributes.project.start_date", :default => t("activerecord.labels.start_date", :default => "Start date")) + ":"
-%p= @project.start_date
-%label{:class => "label"}= t("activerecord.attributes.project.end_date", :default => t("activerecord.labels.end_date", :default => "End date")) + ":"
-%p= @project.end_date
-%label{:class => "label"}= t("activerecord.attributes.project.public", :default => t("activerecord.labels.public", :default => "Public")) + ":"
-%p= @project.public
-%label{:class => "label"}= t("activerecord.attributes.project.status_id", :default => t("activerecord.labels.status_id", :default => "Status")) + ":"
-%p= @project.status_id
-%label{:class => "label"}= t("activerecord.attributes.project.manager_id", :default => t("activerecord.labels.manager_id", :default => "Manager")) + ":"
-%p= @project.manager_id
+- content_for :alerts do
+	- if @project.public
+		= alert_msg "Nice!", "This is a public project.", "alert-success"
+	- else
+		= alert_msg "Notice:", "This project is private."
+	
+.page-header
+	%h1= @project.title
+%ul.nav.nav-tabs
+	%li.active= link_to 'Details', '#details', {'data-toggle' => 'tab'}
+	%li= link_to 'Tasks', '#tasks', {'data-toggle' => 'tab'}
+	%li= link_to 'Developers', '#devs', {'data-toggle' => 'tab'}
 
-.form-actions
-  = link_to "Back", projects_path, :class => 'btn'
-  = link_to "Edit", edit_project_path(@project), :class => 'btn'
-  = link_to "Delete", project_path(@project), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger'
+.tab-content
+	#details.tab-pane.active
+		%label{:class => "label"}= t("activerecord.attributes.project.description", :default => t("activerecord.labels.description", :default => "Description"))
+		%p= @project.description
+		
+		%label{:class => "label"}= t("activerecord.attributes.project.start_date", :default => t("activerecord.labels.start_date", :default => "Start date"))
+		%p= @project.start_date
+		
+		%label{:class => "label"}= t("activerecord.attributes.project.end_date", :default => t("activerecord.labels.end_date", :default => "End date"))
+		%p= @project.end_date
+		
+		%label{:class => "label"}= t("activerecord.attributes.project.status_id", :default => t("activerecord.labels.status_id", :default => "Status"))
+		%p= @project.status
+		
+		%label{:class => "label"}= t("activerecord.attributes.project.manager_id", :default => t("activerecord.labels.manager_id", :default => "Manager"))
+		%p= link_to @project.manager, user_path(@project.manager)
+	#tasks.tab-pane
+		#accordion.accordion
+			- @project.tasks.each do |task|
+				.accordion-group
+					.accordion-heading
+						= link_to "#task-#{task.id}", {:class => 'accordion-toggle', 'data-toggle' => 'collapse'} do
+							%i{:class => task.type.icon}
+							= task.title
+							%span.label.pull-right{:class => "label-#{task.completed ? 'success' : 'warning' }" }= task.completed ? 'Completed' : 'In progress'
+					.accordion-body.collapse{:id => "task-#{task.id}"}
+						.accordion-inner
+							.btn-toolbar.pull-right
+								.btn-group
+									= link_to edit_task_path(task), {:class => 'btn btn-small'} do
+										%i.icon-pencil
+									= link_to edit_task_path(task), {:class => 'btn btn-small btn-success'} do
+										%i.icon-ok.icon-white
+									
+							%dl.dl-horizontal
+								%dt= Task.human_attribute_name(:type)
+								%dd= task.type
+								
+								%dt= Task.human_attribute_name(:description)
+								%dd= task.description
+								
+								%dt= Task.human_attribute_name(:start_date)
+								%dd= task.start_date
+								
+								%dt= Task.human_attribute_name(:difficulty)
+								%dd= task.difficulty
+								
+								%dt= Task.human_attribute_name(:user)
+								%dd= task.user
+			
+			.btn-toolbar.pull-right
+				.btn-group
+					= link_to new_project_task_path(@project), :class => 'btn btn-primary' do
+						%i.icon-plus.icon-white
+						Add task
+	#devs.tab-pane
+		%table.table.table-stripped
+			%thead
+				%tr
+					%th #
+					%th Name
+					%th Email
+					%th Country
+			%tbody
+				- i = 1;
+				%tr
+					%td= i
+					%td
+						= link_to @project.manager.name, user_path(@project.manager)
+						%span.label.label-info Manager
+					%td= @project.manager.email
+					%td= @project.manager.country
+				- @project.developers.each do |dev|
+					%tr
+						%td= i += 1
+						%td= dev.name
+						%td= dev.email
+						%td= dev.country
+		
+		.btn-toolbar.pull-right
+			.btn-group
+				= link_to '#dialog', {:class => 'btn btn-primary', 'data-toggle' => 'modal'} do
+					%i.icon-plus.icon-white
+					Add developer
+
+.form-actions.btn-group
+	= link_to projects_path, :class => 'btn' do
+		%i.icon-arrow-left
+		Back
+	= link_to edit_project_path(@project), :class => 'btn' do
+		%i.icon-pencil
+		Edit
+	= link_to project_path(@project), :method => "delete", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}", :class => 'btn btn-danger' do
+		%i.icon-trash.icon-white
+		Delete
+
+#dialog.modal.hide.fade
+	.modal-header
+		%a.close{'data-dismiss' => 'modal'}×
+		%h2 Add a developer
+	.modal-body
+		= render :partial => "dev_search_form"
+	.modal-footer
+		= link_to "#", {:class => 'btn', 'data-dismiss' => 'modal'} do
+			%i.icon-remove
+			Cancel

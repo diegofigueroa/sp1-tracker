@@ -80,4 +80,28 @@ class ProjectsController < ApplicationController
       format.json { head :ok }
     end
   end
+	
+	def search_developers
+		@query = params[:query]
+		@project = Project.find(params[:project_id])
+		
+		tokens = @query.split.collect {|c| "%#{c.downcase}%"}
+		conds = (["(lower(#{User.table_name}.name) like ? or lower(#{User.table_name}.email) like ?)"] * tokens.size).join(" and ")
+		
+		@users = User.where(conds, *(tokens * 2).sort)
+		respond_to do |format|
+			format.js { render 'dev_search' }
+		end  
+	end
+	
+	def add_developer
+		project = Project.find(params[:project_id])
+		@developer = User.find(params[:id])
+		
+		@success = false
+		unless project.manager.id == @developer.id || project.developers.exists?(:id => @developer.id)
+			 project.developers << @developer
+			 @success = true
+		end
+	end
 end

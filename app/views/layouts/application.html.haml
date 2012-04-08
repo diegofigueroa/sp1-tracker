@@ -25,24 +25,50 @@
 					= link_to("Tracker", projects_path, :class => "brand")
 					.container.nav-collapse
 						%ul.nav
-							%li= link_to "Link 1", "/path1"
-							%li= link_to "Link 2", "/path2"
-							%li= link_to "Link 3", "/path3"
+							
+						%ul.nav.pull-right
+							%li.divider-vertical
+							%li.dropdown
+								%a.dropdown-toggle{:href => "#", 'data-toggle' => 'dropdown'}
+									%i.icon-user.icon-white
+									Account
+									%b.caret
+								%ul.dropdown-menu
+									%li
+										= link_to  users_path do
+											%i.icon-off
+											Logout
 		.container
 			.content
 				.row
-					.span3
+					.span2
 						.well.sidebar-nav
 							%ul.nav.nav-list
-								%li.nav-header Sidebar
-								%li= link_to "Link 1", "/path1"
-								%li= link_to "Link 2", "/path2"
-								%li= link_to "Link 3", "/path3"
-					.span9
+								%li.nav-header Tracker
+								%li.active
+									= link_to projects_path do
+										%i.icon-home
+										Projects
+								%li
+									= link_to tasks_path do
+										%i.icon-list
+										My Tasks
+								%li.nav-header My Account
+								%li
+									= link_to users_path do
+										%i.icon-cog
+										Settings
+								%li.divider
+								%li
+									= link_to projects_path do
+										%i.icon-flag
+										Help
+					.span10
+						= yield :alerts
 						= yield
-			%footer
-				%p &copy; Company 2012
-	/Le javascript
-	/==================================================
-	/ Placed at the end of the document so the pages load faster
-	= javascript_include_tag "application"
+						%footer
+							%p &copy; Company 2012
+		/Le javascript
+		/==================================================
+		/ Placed at the end of the document so the pages load faster
+		= javascript_include_tag "application"
