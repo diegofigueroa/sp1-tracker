@@ -1,0 +1,4 @@
+- if @success
+	$("#dev-#{@developer.id}").remove();
+- else
+	$("#dev-#{@developer.id} .error_msg").html('<span class="label label-important">Delete failed</span>');

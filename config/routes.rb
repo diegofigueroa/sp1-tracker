@@ -9,6 +9,7 @@ CardinalTracker::Application.routes.draw do
 		resources :tasks, :shallow => true
 		resources :developers, :controller => "projects", :only => [:destroy] do
 			get :add, :action => :add_developer, :on => :member
+			delete :remove, :action => :remove_developer, :on => :member
 			post :search, :action => :search_developers, :on => :collection
 		end
 		

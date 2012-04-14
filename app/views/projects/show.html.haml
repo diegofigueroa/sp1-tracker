@@ -74,6 +74,7 @@
 					%th Name
 					%th Email
 					%th Country
+					%th
 			%tbody
 				- i = 1;
 				%tr
@@ -83,12 +84,18 @@
 						%span.label.label-info Manager
 					%td= @project.manager.email
 					%td= @project.manager.country
+					%td
 				- @project.developers.each do |dev|
-					%tr
+					%tr{:id => "dev-#{dev.id}"}
 						%td= i += 1
 						%td= dev.name
 						%td= dev.email
 						%td= dev.country
+						%td
+							= link_to remove_project_developer_path(@project, dev), {:method => :delete, :confirm => "Esta seguro?", :remote => true, :class => 'btn btn-danger'}  do
+								%i.icon-remove.icon-white
+								Remove
+							%span.error_msg
 		
 		.btn-toolbar.pull-right
 			.btn-group
@@ -116,4 +123,4 @@
 	.modal-footer
 		= link_to "#", {:class => 'btn', 'data-dismiss' => 'modal'} do
 			%i.icon-remove
-			Cancel
+			Close

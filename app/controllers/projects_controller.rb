@@ -104,4 +104,15 @@ class ProjectsController < ApplicationController
 			 @success = true
 		end
 	end
+	
+	def remove_developer
+		@project = Project.find(params[:project_id])
+		@developer = User.find(params[:id])
+		@success = false
+		
+		if @project.manager.id != @developer.id && @project.developers.exists?(:id => @developer.id)
+			@project.developers.delete @developer
+			@success = true
+		end
+	end
 end
